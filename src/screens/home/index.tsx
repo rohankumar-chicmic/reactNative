@@ -4,6 +4,10 @@ import { RootStackParamList } from '../../types/RootStackParamList';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import styles from './styles';
 import { ImageStyle } from 'react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useEffect } from 'react';
+import { getObjectValue } from '../../utils/storageUtils';
 
 type NavigationProp = NativeStackNavigationProp<
     RootStackParamList,
@@ -12,7 +16,21 @@ type NavigationProp = NativeStackNavigationProp<
 
 function Home() {
 
-    const Navigation = useNavigation<NavigationProp>();
+    const token = useSelector((state: RootState)=>state.auth.token);
+    const Navigation = useNavigation<any>();
+
+    // useEffect(()=>{
+    //     const checkUser = async () => {
+    //         if (token) {
+    //           const user = await getObjectValue(token); 
+    //           if (user) {
+    //             Navigation.navigate('user', { user });
+    //           }
+    //         }
+    //       };
+    //       checkUser();
+    // },[])
+
     return (
         <ScrollView contentContainerStyle={styles.container} bounces={false}>
             <Image source={require('../../assets/easyName.png')} style={styles.image as ImageStyle} />

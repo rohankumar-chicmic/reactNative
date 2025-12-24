@@ -1,4 +1,4 @@
-import colorScheme from "../../assets/colorScheme";
+import colorScheme from "../../../assets/colorScheme";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
         backgroundColor: colorScheme.white,
         height: '100%',
         alignItems: 'center', 
+        justifyContent: 'space-around',
         padding: 20,
     },
     button:{
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
         margin: 15
     }, 
     section:{
-        justifyContent:'center',
+        justifyContent:'space-evenly',
         alignItems:'center',
         height: '30%', 
         width: '100%'
