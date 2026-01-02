@@ -1,5 +1,5 @@
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native'
-import InputFields from '../../../components/InputFields'
+import InputFields from '../../../components/atoms/InputFields'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
@@ -27,7 +27,7 @@ function Login() {
             setUser(user)
             console.log(user);
             dispatch(login({email: user.email}));
-            Navigation.navigate('user', { user: user });
+            Navigation.navigate('user', { user: formData });
 
         } catch (e: any) {
             setError(e);

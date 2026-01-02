@@ -1,48 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface post {
     title: string
 }
 
-interface postState {
-    posts: post[], 
-    loading: boolean, 
-    error: any
-}
-
-const initialState: postState= {
-    posts: [], 
-    loading: false,
-    error: null
-}
-
-const apiSlice = createSlice({
-    name: 'api', 
-    initialState, 
-    reducers:{
-        fetchRequest(state){
-            state.loading = true;
-            state.error = null;
-        }, 
-        fetchSuccess(state, action){    
-            state.loading = false;
-            state.posts = action.payload;
-        }, 
-        fetchFailure(state, action){
-            state.loading = false;   
-            state.error = action.payload;
-        },
-        removePosts(state){
-            state.posts = []
-        }
-    }
+export const apiSlice = createApi({
+    reducerPath: 'api',
+    baseQuery: fetchBaseQuery({baseUrl: 'https://dummyjson.com/'}),
+    endpoints: (builder)=>({
+        getPosts: builder.query<post[], void>({
+            query: () => `/products`, 
+            transformResponse: (response: {products : post[]}) => response.products,
+        })
+    })
 })
 
 export const {
-    fetchRequest, 
-    fetchSuccess,
-    fetchFailure,
-    removePosts
-} = apiSlice.actions
+    useGetPostsQuery,
+} = apiSlice
 
-export default apiSlice.reducer;

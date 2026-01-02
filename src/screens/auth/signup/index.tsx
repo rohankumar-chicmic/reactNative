@@ -1,5 +1,5 @@
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native'
-import InputFields from '../../../components/InputFields'
+import InputFields from '../../../components/atoms/InputFields'
 import styles from './styles'
 import { Link, useNavigation } from '@react-navigation/native'
 import { useState } from 'react'

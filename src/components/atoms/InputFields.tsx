@@ -1,6 +1,6 @@
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import colorScheme from '../assets/colorScheme'
+import colorScheme from '../../assets/colorScheme'
 
 
 export default function InputFields(props: any) {

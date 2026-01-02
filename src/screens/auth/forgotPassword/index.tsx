@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { useState, useRef } from 'react'
 import { OtpInput } from "react-native-otp-entry";
 import React from 'react';
-import InputFields from '../../../components/InputFields'
+import InputFields from '../../../components/atoms/InputFields'
 import styles from './styles';
 import { getObjectValue, setObjectValue } from '../../../utils/storageUtils';
 import { useNavigation } from '@react-navigation/native';

@@ -3,41 +3,53 @@ import React from 'react'
 import { persistor, type RootState } from '../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './styles';
-import { logout} from '../../../features/authSlice';
-import { fetchRequest, removePosts  } from '../../../features/apiSlice';
+import { logout } from '../../../features/authSlice';
+import { apiSlice, useGetPostsQuery } from '../../../features/apiSlice';
 import { useNavigation } from '@react-navigation/native';
 
-export default function User({ route }: any) {
+export default function User() {
+  const [showPosts, setShowPosts] = React.useState(false);
   const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useDispatch<any>();
+
   const Navigation = useNavigation<any>();
-  const posts=useSelector((state: RootState) => state.api.posts)
+  const {
+    data,
+    error,
+    isLoading,
+    refetch,
+  } = useGetPostsQuery()  
 
-  const handleLogout = async () => {
-    dispatch(logout());
+
+  const handleLogout = () => {
+    dispatch(logout())
+    dispatch(apiSlice.util.resetApiState())
   }
 
-  const showPosts = () => {
-    dispatch(fetchRequest());  
+  const removePosts = () => {
+    setShowPosts(false)
+    dispatch(apiSlice.util.resetApiState())
   }
+  
 
   return (
     <View style={styles.section}>
-      
+
       <TouchableOpacity style={styles.button}
-        onPress={ handleLogout}>
+        onPress={handleLogout}>
         <Text style={styles.text}>log out</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}
-        onPress={showPosts}>
+        onPress={()=> {refetch(); setShowPosts(true)}}>
         <Text style={styles.text}>see posts</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}
-        onPress={()=> dispatch(removePosts())}>
+        onPress={() => removePosts() }>
         <Text style={styles.text}>remove posts</Text>
       </TouchableOpacity>
-        {posts && posts.map(post => <View key={post.title}><Text>{post.title}</Text></View>)
-          }
+      {showPosts && data?.map(post => <View key={post.title}><Text>{post.title}</Text></View>)
+      }
+
     </View>
   )
 }
