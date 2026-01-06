@@ -63,7 +63,29 @@ const styles = StyleSheet.create({
     inputView:{
         height: '40%', 
         width: '100%',
-    }
+    },
+    card: {
+        padding: 12,
+        marginVertical: 8,
+        marginHorizontal: 16,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        elevation: 2,
+      },
+      id: {
+        fontSize: 12,
+        color: '#888',
+        marginBottom: 4,
+      },
+      title: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginBottom: 6,
+      },
+      description: {
+        fontSize: 14,
+        color: '#444',
+      },
 
 })
 

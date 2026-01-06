@@ -5,8 +5,7 @@ import { Link, useNavigation } from '@react-navigation/native'
 import { useState } from 'react'
 import { setObjectValue } from '../../../utils/storageUtils'
 import { ImageStyle } from 'react-native'
-
-
+import Toast from 'react-native-toast-message';
 
 function Signup() {
   const [borderColor, setBorderColor] = useState<string>();
@@ -47,27 +46,37 @@ function Signup() {
       console.log('user made successfully')
       Navigation.navigate('login');
     } catch (e: any) {
-      alert(e);
+      showToast(e);
 
       setError(e.message);
       console.log(e, 'error occurred');
     }
   }
 
+  const showToast = (e: any) => {
+    Toast.show({
+      type: 'error',
+      text1: 'Signup Failed',
+      text2: e?e.message: 'Some error occured'
+    });
+  }
 
 
   return (
     <ScrollView contentContainerStyle={styles.container} bounces={true} style={{ backgroundColor: 'white' }} >
-      <View style={[styles.section, { marginTop: 40 }]}>
-        <Text style={styles.primaryText}> Create Account</Text>
-        <Text
-          style={[styles.text, { color: 'black', margin: 5 }]} >
-          create an account so you can explore
-        </Text>
+      <View style={[styles.section]}>
+        <View style={styles.section}>
 
-        <Text style={[styles.text, { color: 'black' }]}>
-          all the existing job
-        </Text>
+          <Text style={styles.primaryText}> Create Account</Text>
+          <Text
+            style={[styles.text, { color: 'black', margin: 5 }]} >
+            create an account so you can explore
+          </Text>
+
+          <Text style={[styles.text, { color: 'black' }]}>
+            all the existing job
+          </Text>
+        </View>
       </View>
 
       <View style={styles.inputView}>
@@ -87,16 +96,18 @@ function Signup() {
       </View>
 
       <View style={[styles.section]}>
+        <View style={[styles.section]}>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => handleSubmitForm()}
-        >
-          <Text style={styles.text}>Sign up</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleSubmitForm()}
+          >
+            <Text style={styles.text}>Sign up</Text>
+          </TouchableOpacity>
 
-        <Text onPress={() => Navigation.replace('login')}>already have an account?</Text>
-        <View style={[styles.section, { marginVertical: 90 }]}>
+          <Text onPress={() => Navigation.replace('login')}>already have an account?</Text>
+        </View>
+        <View style={[styles.section]}>
           <Text >or continue with</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
             <Image source={require('../../../assets/google.png')} style={styles.image as ImageStyle} />

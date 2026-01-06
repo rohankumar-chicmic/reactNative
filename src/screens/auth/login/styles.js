@@ -4,7 +4,8 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container :{
         backgroundColor: colorScheme.white,
-        height: '100%',
+        height: '95%',
+        justifyContent: 'space-evenly',
         alignItems: 'center', 
         padding: 20,
     },
@@ -43,10 +44,10 @@ const styles = StyleSheet.create({
         margin: 15
     }, 
     section:{
-        justifyContent:'center',
+        justifyContent:'space-between',
         alignItems:'center',
         height: '30%', 
-        width: '100%'
+        width: '100%', 
     },
     
     inputView:{

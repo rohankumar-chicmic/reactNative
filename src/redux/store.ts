@@ -4,7 +4,6 @@ import { apiSlice } from '../features/apiSlice'
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import createSagaMiddleware from 'redux-saga'
-// import { rootSaga } from "./sagas";
 
 const sagaMiddleware = createSagaMiddleware();  
 

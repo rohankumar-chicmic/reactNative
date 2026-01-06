@@ -7,6 +7,15 @@ import styles from './styles';
 import { getObjectValue, setObjectValue } from '../../../utils/storageUtils';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../types/RootStackParamList';
+import Toast from 'react-native-toast-message';
+
+const showToast = (e: any) => {
+    Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: e ? e.message : 'Some error occured'
+    });
+}
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -40,7 +49,7 @@ export default function ForgotPassword() {
             setOtpSent(true);
         }
         catch (e: any) {
-            alert(e.message);
+            showToast(e);
         }
 
     }
@@ -85,7 +94,7 @@ const OtpComponent = (props: { otpRef: { current: number }, setOtpVerified: Func
             console.log(otp, props.otpRef)
         }
         else {
-            alert('wrong otp')
+            showToast({ message: '' })
         }
     }
 
@@ -103,8 +112,8 @@ const OtpComponent = (props: { otpRef: { current: number }, setOtpVerified: Func
 
     return (
         <>
-            <OtpInput numberOfDigits={6} onTextChange={(e: string) => setOtp(e)}  />
-                <Text style={{alignSelf: 'flex-end'}} onPress={resentOtp}> resend OTP</Text>
+            <OtpInput numberOfDigits={6} onTextChange={(e: string) => setOtp(e)} />
+            <Text style={{ alignSelf: 'flex-end' }} onPress={resentOtp}> resend OTP</Text>
             <TouchableOpacity
                 style={styles.button}
                 onPress={handleSubmit}
@@ -124,7 +133,7 @@ const ConfirmPasswordComponent = (props: { email: string }) => {
 
     const submitNewPassword = async () => {
         if (password !== confirmPassword) {
-            alert('Password do not match')
+            showToast({message:'Password do not match'})
             return;
         }
         const user = await getObjectValue(props.email);
