@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { persistor, type RootState } from '../../../redux/store'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './styles';
@@ -10,10 +10,10 @@ import { post } from '../../../features/apiSlice';
 
 export default function User() {
   const [showPosts, setShowPosts] = useState(false);
-  const [dataArray, setDataArray] = useState<post[]>([])
   const token = useSelector((state: RootState) => state.auth.token);
   const dispatch = useDispatch<any>();
-
+  const [skip, setSkip] = useState(0);
+  const [dataArray, setDataArray] = useState<post[]>([])
 
   const Navigation = useNavigation<any>();
   const {
@@ -21,8 +21,15 @@ export default function User() {
     error,
     isLoading,
     refetch,
-  } = useGetPostsQuery([1])
+  } = useGetPostsQuery(skip, {
+    refetchOnMountOrArgChange: true
+  });
 
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setDataArray(prev => [...prev, ...data]);
+    }
+  }, [data])
 
   const handleLogout = () => {
     dispatch(logout())
@@ -31,7 +38,14 @@ export default function User() {
 
   const removePosts = () => {
     setShowPosts(false)
-    dispatch(apiSlice.util.resetApiState())
+  }
+
+  const handleEndReached = () => {
+    setSkip(skip => skip + 10);
+  }
+
+  const handleShowPosts = () => {
+    setShowPosts(true)
   }
 
   const renderItem = ({ item }: any) => {
@@ -44,17 +58,17 @@ export default function User() {
     );
   };
 
-
-
   return (
     <View style={styles.container}>
-       <View style={[styles.section, {height: '60%',  backgroundColor: '#f3f4f7', padding:10}]}>
+      <View style={[styles.section, { height: '60%', backgroundColor: '#f3f4f7', padding: 10 }]}>
         {showPosts && (
           <FlatList
-            data={data}
+            data={dataArray}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => `${item.id.toString()}`}
             style={{ height: '100%' }}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.3}
           >
           </FlatList>
         )}
@@ -66,7 +80,7 @@ export default function User() {
           <Text style={styles.text}>log out</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}
-          onPress={() => { refetch(); setShowPosts(true) }}>
+          onPress={handleShowPosts}>
           <Text style={styles.text}>see posts</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}

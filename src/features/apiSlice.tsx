@@ -10,8 +10,8 @@ export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({baseUrl: 'https://dummyjson.com/'}),
     endpoints: (builder)=>({
-        getPosts: builder.query<post[], number[]>({
-            query: () => `/products?limit=10`, 
+        getPosts: builder.query<post[], number>({
+            query: (skip) => `/products?limit=10&skip=${skip}`, 
             transformResponse: (response: {products : post[]}) => response.products,
         })
         
